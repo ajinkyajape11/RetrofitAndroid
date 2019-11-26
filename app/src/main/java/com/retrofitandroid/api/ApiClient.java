@@ -1,11 +1,5 @@
 package com.retrofitandroid.api;
 
-import android.content.Context;
-
-import com.retrofitandroid.ApiInterface;
-
-import java.util.HashMap;
-
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;

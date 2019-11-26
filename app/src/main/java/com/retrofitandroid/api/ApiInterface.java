@@ -1,4 +1,4 @@
-package com.retrofitandroid;
+package com.retrofitandroid.api;
 
 import com.retrofitandroid.mvp.model.MovieDataResponse;
 
