@@ -61,7 +61,7 @@ public class MainActivity extends AppCompatActivity implements MovieView, OnLoad
 
         pageNumber++;
         moviePresenter.getApiCall(
-                "db879a16f7c7bb79031c9b37eae73e65",
+                "<ENTER-YOUR-API-KEY>",
                 "en-US", String.valueOf(pageNumber)
         );
     }
