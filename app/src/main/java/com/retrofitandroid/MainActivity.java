@@ -10,11 +10,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.google.gson.Gson;
+import com.retrofitandroid.adapters.MoviesListAdapter;
 import com.retrofitandroid.mvp.model.MovieData;
 import com.retrofitandroid.mvp.model.MovieDataResponse;
 import com.retrofitandroid.mvp.presenter.MoviePresenter;
@@ -43,7 +41,7 @@ public class MainActivity extends AppCompatActivity implements MovieView, OnLoad
     @BindView(R.id.mSmartRefreshLayout)
     SmartRefreshLayout mSmartRefreshLayout;
 
-    Lapdter lapdter;
+    MoviesListAdapter moviesListAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,7 +58,7 @@ public class MainActivity extends AppCompatActivity implements MovieView, OnLoad
         moviePresenter = new MoviePresenter(this, this);
 
         pageNumber++;
-        moviePresenter.getApiCall(
+        moviePresenter.GetMoviesList(
                 "<ENTER-YOUR-API-KEY>",
                 "en-US", String.valueOf(pageNumber)
         );
@@ -82,11 +80,11 @@ public class MainActivity extends AppCompatActivity implements MovieView, OnLoad
         if (pageNumber == 1) {
             movieDataList = new ArrayList<MovieData>();
             movieDataList = data;
-            lapdter = new Lapdter(movieDataList);
-            rcList.setAdapter(lapdter);
+            moviesListAdapter = new MoviesListAdapter(movieDataList);
+            rcList.setAdapter(moviesListAdapter);
         } else {
             movieDataList.addAll(data);
-            lapdter.notifyDataSetChanged();
+            moviesListAdapter.notifyDataSetChanged();
         }
 
         mSmartRefreshLayout.finishLoadMore();
@@ -109,55 +107,10 @@ public class MainActivity extends AppCompatActivity implements MovieView, OnLoad
     @Override
     public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
         pageNumber++;
-        moviePresenter.getApiCall(
-                "db879a16f7c7bb79031c9b37eae73e65",
-                "en-US", String.valueOf(pageNumber)
-        );
-    }
-
-    public class Lapdter extends RecyclerView.Adapter<Lapdter.Myholder> {
-        List<MovieData> adapterList;
-
-
-        public Lapdter(List<MovieData> dataList) {
-            this.adapterList = dataList;
-
-        }
-
-        public class Myholder extends RecyclerView.ViewHolder {
-
-            TextView textView;
-            TextView textView2;
-
-            public Myholder(@NonNull View itemView) {
-                super(itemView);
-                textView = itemView.findViewById(R.id.textView);
-                textView2 = itemView.findViewById(R.id.textView2);
-            }
-        }
-
-
-        @NonNull
-        @Override
-        public Myholder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_list, parent, false);
-            return new Myholder(view);
-        }
-
-        @Override
-        public void onBindViewHolder(@NonNull Myholder holder, int position) {
-            holder.textView.setText(adapterList.get(position).getTitle());
-            holder.textView2.setText(adapterList.get(position).getOverview());
-        }
-
-
-        @Override
-        public int getItemCount() {
-            return adapterList.size();
-        }
-
+        moviePresenter.GetMoviesList(
+                "<ENTER-YOUR-API-KEY>",
+                "en-US", String.valueOf(pageNumber));
 
     }
-
 
 }
